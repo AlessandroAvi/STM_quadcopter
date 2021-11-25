@@ -1,26 +1,21 @@
 #include "ESC_ctrl.h"
+#include "tim.h"
 
 
 
 
 
+void ESC_setSpeed(int dutyCycle, ESC_POS fan){
 
-void ESC_setPWM(int dutyCycle){
-
-	TIM2->CCR1 = dutyCycle+100;
-
-}
-
-
-
-
-void ESC_initialSetUp(){
-
-	ESC_setPWM(100);
-
-	HAL_Delay(4000);
-
-	ESC_setPWM(0);
-
+	if(fan==FAN_FR){
+		TIM2->CCR1 = dutyCycle + 100;
+	}else if(fan==FAN_FL){
+		TIM2->CCR2 = dutyCycle+100;
+	}else if(fan==FAN_RR){
+		TIM2->CCR1 = dutyCycle + 100;
+	}else if(fan==FAN_RL){
+		TIM2->CCR1 = dutyCycle + 100;
+	}
 
 }
+

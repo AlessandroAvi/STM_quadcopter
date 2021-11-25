@@ -6,6 +6,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/ESC_ctrl.c \
+../Core/Src/debug.c \
 ../Core/Src/gpio.c \
 ../Core/Src/main.c \
 ../Core/Src/stm32f4xx_hal_msp.c \
@@ -18,6 +19,7 @@ C_SRCS += \
 
 OBJS += \
 ./Core/Src/ESC_ctrl.o \
+./Core/Src/debug.o \
 ./Core/Src/gpio.o \
 ./Core/Src/main.o \
 ./Core/Src/stm32f4xx_hal_msp.o \
@@ -30,6 +32,7 @@ OBJS += \
 
 C_DEPS += \
 ./Core/Src/ESC_ctrl.d \
+./Core/Src/debug.d \
 ./Core/Src/gpio.d \
 ./Core/Src/main.d \
 ./Core/Src/stm32f4xx_hal_msp.d \

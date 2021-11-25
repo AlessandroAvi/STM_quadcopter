@@ -1,0 +1,5 @@
+debug.c:5:6:PRINTF	120	static
+debug.c:13:6:PRINTF8	120	static
+debug.c:21:6:PRINTF16	120	static
+debug.c:29:6:PRINTF32	120	static
+debug.c:37:6:PRINTFchar	120	static

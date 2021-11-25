@@ -25,9 +25,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "ESC_ctrl.h"
 #include <stdio.h>
 #include <string.h>
+
+// My libraries
+#include "ESC_ctrl.h"
+#include "debug.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,12 +52,18 @@
 
 /* USER CODE BEGIN PV */
 
-
-uint8_t msgRx[RX_MSG_LEN];
+// DEBUG MESSAGES
 int msgLen;
+char msgDebug[100];
+
+// RECEIVE INFO MESSAGE
+uint8_t msgRx[RX_MSG_LEN];
 
 //Define flags
 int BLUE_BUTTON = 0;
+
+// CONTAINERS
+int dutyCycle = 0;
 
 
 /* USER CODE END PV */
@@ -101,18 +110,20 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  //int dutyCycle = 0;
-  int dutyCycle =0;
-  char msgDebug[100];
 
 
-  msgLen = sprintf(msgDebug, "\n\r BEGINNING OF THE CODE \n\n\r");
-  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 100),
+
+  PRINTF("\n\r BEGINNING OF THE CODE \n\n\r");
 
   // Start the counter for the PWM signal
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  //HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
 
-  ESC_initialSetUp();
+
+
+
+  //ESC_initialSetUp(ESC_STRUCT.FR);
+
 
   /* USER CODE END 2 */
 
@@ -122,21 +133,8 @@ int main(void)
   {
 	  if(BLUE_BUTTON == 1){
 
-		  msgLen = sprintf(msgDebug, "\n\r BLUE BUTTON PRESSED \n\r");
-		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 100);
-
-		  msgLen = sprintf(msgDebug, "  Specify the value of the duty cycle in between 0 and 99 -> \n\r");
-		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 100),
-		  HAL_UART_Receive(&huart2, (uint8_t*)msgRx, 2, 100);
-
-		  // Transform Rx message in number
-		  dutyCycle = msgRx[0]*10 +  msgRx[1]*1;
-
-		  msgLen = sprintf(msgDebug, "  Pulse value is now %i \n\r", dutyCycle);
-		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 100),
-
-		  // the pulse must go from 0 to 100, the CCR1 can go from 100 to 200
-		  TIM2->CCR1 = dutyCycle+100;
+		  // the pulse must go from 0 to 100, the CCR value can go from 100 to 200
+		  ESC_setSpeed(dutyCycle, FAN_FR);
 
 		  BLUE_BUTTON = 0;
 	  }
@@ -197,6 +195,28 @@ void SystemClock_Config(void)
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 
 	if(GPIO_Pin==B1_Pin){
+
+
+		msgLen = sprintf(msgDebug, "BLUE BUTTON PRESSED \n\r");
+		if( HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 1000) != HAL_OK ){Error_Handler();}
+		msgLen = sprintf(msgDebug, "  Specify the value of the duty cycle in between 0 and 100 (3 digits required _ _ _) -> \n\r");
+		if( HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 1000) != HAL_OK ){Error_Handler();}
+		// Receive letter
+		if( HAL_UART_Receive(&huart2, (uint8_t*)msgRx, 3, 1000) != HAL_OK ){Error_Handler();}
+		while(HAL_UART_GetState(&huart2) != HAL_UART_STATE_READY){}
+
+
+		// Transform Rx message in number
+		dutyCycle = (int)(msgRx[0]-48)*100 + (int)(msgRx[1]-48)*10 +  (int)(msgRx[2]-48);
+		if(dutyCycle > 100){
+			dutyCycle = 100;
+		}
+
+		msgLen = sprintf(msgDebug, "  Pulse value is now %d \n\r", dutyCycle);
+		if( HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 1000) != HAL_OK ){Error_Handler();}
+
+		//TIM2->CCR1 = dutyCycle + 100;
+
 		BLUE_BUTTON = 1;
 	}
 
