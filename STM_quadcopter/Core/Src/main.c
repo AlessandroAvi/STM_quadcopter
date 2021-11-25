@@ -25,7 +25,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "ESC_ctrl.h"
+#include <stdio.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,7 +49,7 @@
 
 /* USER CODE BEGIN PV */
 
-// Esc values
+
 uint8_t msgRx[RX_MSG_LEN];
 int msgLen;
 
@@ -100,17 +102,17 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   //int dutyCycle = 0;
-  int pulse =50;
+  int dutyCycle =0;
   char msgDebug[100];
 
 
   msgLen = sprintf(msgDebug, "\n\r BEGINNING OF THE CODE \n\n\r");
   HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 100),
 
-  // Start the coutner for the PWM signal
+  // Start the counter for the PWM signal
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 
-
+  ESC_initialSetUp();
 
   /* USER CODE END 2 */
 
@@ -122,24 +124,19 @@ int main(void)
 
 		  msgLen = sprintf(msgDebug, "\n\r BLUE BUTTON PRESSED \n\r");
 		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 100);
-		  //msgLen = sprintf(msgDebug, "Specifyt he value of the duty cycle in between 0 and 100 -> ");
-		  //HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, BUFF_LEN, 100),
-		  //HAL_UART_Receive(&huart2, (uint8_t*)msgRx, RX_MSG_LEN, 100);
+
+		  msgLen = sprintf(msgDebug, "  Specify the value of the duty cycle in between 0 and 99 -> \n\r");
+		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 100),
+		  HAL_UART_Receive(&huart2, (uint8_t*)msgRx, 2, 100);
 
 		  // Transform Rx message in number
-		  //dutyCycle = msgRx[0]*100 +  msgRx[1]*10 + msgRx[2];
+		  dutyCycle = msgRx[0]*10 +  msgRx[1]*1;
 
-
-		  if(pulse==50){
-			  pulse = 100;
-		  }else if(pulse==100){
-			  pulse=50;
-		  }
-		  msgLen = sprintf(msgDebug, "Pulse value is now %i", pulse);
+		  msgLen = sprintf(msgDebug, "  Pulse value is now %i \n\r", dutyCycle);
 		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 100),
 
-		  TIM2->CCR1 = pulse;
-		  //__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pulse);
+		  // the pulse must go from 0 to 100, the CCR1 can go from 100 to 200
+		  TIM2->CCR1 = dutyCycle+100;
 
 		  BLUE_BUTTON = 0;
 	  }

@@ -1,1 +1,2 @@
 ESC_ctrl.c:8:6:ESC_setPWM	16	static
+ESC_ctrl.c:17:6:ESC_initialSetUp	8	static

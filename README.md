@@ -18,13 +18,9 @@ Up to now the hardware that I used is:
 ### TO DO
 
 - Code for controlling easily PWM and brushless motor velocity
-
 - Include accelerometer in code
-
 - General idea of control of each propeller depending on angle/position of propeller
-
 - Build hardware frame (3d print? / wood?)
-
 - Organize well libraries from beginning
-
-  
+- search a compatible/small/low cost accelerometer/gyroscope
+- search a compatible/small/low cost receiver/transmitter
