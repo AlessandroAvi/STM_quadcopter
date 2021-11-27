@@ -117,12 +117,17 @@ int main(void)
 
   // Start the counter for the PWM signal
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-  //HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+
+  HAL_UART_Receive_IT(&huart2, (uint8_t*)cmd_rx, 1);
 
 
+  ESC_STATUS ESC_speed;
 
-
-  //ESC_initialSetUp(ESC_STRUCT.FR);
+  ESC_speed.FR = 0;
+  ESC_speed.FL = 0;
+  ESC_speed.RR = 0;
+  ESC_speed.RL = 0;
 
 
   /* USER CODE END 2 */
@@ -133,8 +138,49 @@ int main(void)
   {
 	  if(BLUE_BUTTON == 1){
 
-		  // the pulse must go from 0 to 100, the CCR value can go from 100 to 200
-		  ESC_setSpeed(dutyCycle, FAN_FR);
+
+		  if(cmd_rx[0] == 'A' || cmd_rx[0] == 'a'){
+			  ESC_speed.FL += 1;
+			  if(ESC_speed.FR != 0){
+				  ESC_speed.FR -= 1;
+			  }
+		  }else if(cmd_rx[0] == 'D' || cmd_rx[0] == 'd'){
+			  ESC_speed.FR += 1;
+			  if(ESC_speed.FL != 0){
+				  ESC_speed.FL -= 1;
+			  }
+		  }else if(cmd_rx[0] == 'W' || cmd_rx[0] == 'w'){
+			  ESC_speed.FR += 1;
+			  ESC_speed.FL += 1;
+		  }else if(cmd_rx[0] == 'S' || cmd_rx[0] == 's'){
+			  if(ESC_speed.FR != 0){
+				  ESC_speed.FR -= 1;
+			  }
+			  if(ESC_speed.FL != 0){
+				  ESC_speed.FL -= 1;
+			  }
+		  }
+
+		  if(ESC_speed.FL > 500){
+			  ESC_speed.FL = 500;
+		  }else if(ESC_speed.FL <= 0 || ESC_speed.FL > 1000){
+			  ESC_speed.FL = 0;
+		  }
+
+		  if(ESC_speed.FR > 500){
+			  ESC_speed.FR = 500;
+		  }else if(ESC_speed.FR <= 0 || ESC_speed.FR >1000){
+			  ESC_speed.FR = 0;
+		  }
+
+		  msgLen = sprintf(msgDebug, "\n\r UART INTERRUPT");
+		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
+		  msgLen = sprintf(msgDebug, "\n\r   LEFT %d    - RIGHT %d", ESC_speed.FL, ESC_speed.FR);
+		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
+
+
+		  // the pulse must go from 0 to 1000, the CCR value can go from 1000 to 2000
+		  ESC_setSpeed(dutyCycle, &ESC_speed);
 
 		  BLUE_BUTTON = 0;
 	  }
@@ -219,6 +265,21 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 
 		BLUE_BUTTON = 1;
 	}
+
+
+}
+
+
+
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef * huart){
+
+
+	if(BLUE_BUTTON==0){
+		BLUE_BUTTON = 1;
+	}
+
+	HAL_UART_Receive_IT(&huart2, (uint8_t*)cmd_rx, 1);
 
 
 }

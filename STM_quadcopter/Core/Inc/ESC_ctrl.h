@@ -2,16 +2,22 @@
 #include "tim.h"
 
 
+typedef struct{
 
-typedef enum{
-	FAN_FR = 0,
-	FAN_FL,
-	FAN_RR,
-	FAN_RL
-}ESC_POS;
+	uint16_t FR;
+	uint16_t FL;
+	uint16_t RR;
+	uint16_t RL;
+
+}ESC_STATUS;
 
 
 
-void ESC_setSpeed(int dutyCycle, ESC_POS fan);
+extern char cmd_rx[1];
+
+
+
+
+void ESC_setSpeed(int dutyCycle, ESC_STATUS * ESC_speed);
 
 void ESC_initialSetUp();

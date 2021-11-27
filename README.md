@@ -7,7 +7,7 @@ This project is inspired by another STM quadcopter developed some years ago by B
 Up to now the hardware that I used is:
 
 - 1 x Nucelo STM32 F401RE: [Amazon link](https://www.amazon.com/NUCLEO-F401RE-Nucleo-64-Development-STM32F401RE-connectivity/dp/B07JYBPWN4)
-- 1 x STM32 accelerometer shield IKS01A2: [no link]()
+- 1 x Gyro/IMU sensor, mpu-6050: [Ebay link](https://www.ebay.it/itm/253105882143)
 - 4 x (ESC + Brushless motor 1000kV + propellers) : [Aliexpress link](https://it.aliexpress.com/item/4000443619541.html?spm=a2g0s.9042311.0.0.27424c4dM7aEG2)
 - 1 x  Battery connector male/female - XT60 : [Aliexpress link](https://it.aliexpress.com/item/33004745121.html?spm=a2g0s.9042311.0.0.27424c4dGhvzAx)
 - 1 x lipo battery - 2200 mAh - 11.1V - 3S - 30C : [Aliexpress link](https://it.aliexpress.com/item/1005003134034389.html?spm=a2g0s.9042311.0.0.27424c4dGhvzAx)
@@ -17,10 +17,13 @@ Up to now the hardware that I used is:
 
 ### TO DO
 
-- Code for controlling easily PWM and brushless motor velocity
 - Include accelerometer in code
-- General idea of control of each propeller depending on angle/position of propeller
+- Manually calibrate each motor on the same PWM range
 - Build hardware frame (3d print? / wood?)
 - Organize well libraries from beginning
-- search a compatible/small/low cost accelerometer/gyroscope
-- search a compatible/small/low cost receiver/transmitter
+- Add code for receiving data from IMU/gyro
+- Add code for using infro from accelerometer to obtain angle
+- Add code for using angle as PID controller of ESC
+- search a compatible/small/low cost receiver/transmitter (for now control drone through keyboard, WASD)
+
+Future idea is to take the entire project and migrate it to a smaller microcontroller, for example the STM bluepill.

@@ -3,19 +3,16 @@
 
 
 
+char cmd_rx[1];
 
 
-void ESC_setSpeed(int dutyCycle, ESC_POS fan){
+// FUNCTIONS *****************************
 
-	if(fan==FAN_FR){
-		TIM2->CCR1 = dutyCycle + 100;
-	}else if(fan==FAN_FL){
-		TIM2->CCR2 = dutyCycle+100;
-	}else if(fan==FAN_RR){
-		TIM2->CCR1 = dutyCycle + 100;
-	}else if(fan==FAN_RL){
-		TIM2->CCR1 = dutyCycle + 100;
-	}
+void ESC_setSpeed(int dutyCycle, ESC_STATUS * ESC_speed){
+
+	TIM2->CCR1 = ESC_speed->FR + 1000;
+	TIM2->CCR2 = ESC_speed->FL + 1000;
+
 
 }
 
