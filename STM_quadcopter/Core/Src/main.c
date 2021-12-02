@@ -109,6 +109,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_TIM2_Init();
+  MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
 
 
@@ -119,7 +120,7 @@ int main(void)
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
 
-  HAL_UART_Receive_IT(&huart2, (uint8_t*)cmd_rx, 1);
+  HAL_UART_Receive_IT(&huart6, (uint8_t*)cmd_rx, 1);
 
 
   ESC_STATUS ESC_speed;
@@ -138,7 +139,9 @@ int main(void)
   {
 	  if(BLUE_BUTTON == 1){
 
+		  HAL_UART_Transmit(&huart2, (uint8_t*)cmd_rx, 1, 1000);
 
+		  /*
 		  if(cmd_rx[0] == 'A' || cmd_rx[0] == 'a'){
 			  ESC_speed.FL += 1;
 			  if(ESC_speed.FR != 0){
@@ -181,6 +184,7 @@ int main(void)
 
 		  // the pulse must go from 0 to 1000, the CCR value can go from 1000 to 2000
 		  ESC_setSpeed(dutyCycle, &ESC_speed);
+		  */
 
 		  BLUE_BUTTON = 0;
 	  }
@@ -261,8 +265,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 		msgLen = sprintf(msgDebug, "  Pulse value is now %d \n\r", dutyCycle);
 		if( HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 1000) != HAL_OK ){Error_Handler();}
 
-		//TIM2->CCR1 = dutyCycle + 100;
-
 		BLUE_BUTTON = 1;
 	}
 
@@ -279,9 +281,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef * huart){
 		BLUE_BUTTON = 1;
 	}
 
-	HAL_UART_Receive_IT(&huart2, (uint8_t*)cmd_rx, 1);
-
-
+	HAL_UART_Receive_IT(&huart6, (uint8_t*)cmd_rx, 1);
 }
 
 
