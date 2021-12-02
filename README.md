@@ -1,8 +1,8 @@
 # STM quadcopter
 
-This repository contains the code that I am developing teh creation of a quadcopter controller. The idea is to use a nucelo STM32 F401RE as the brain in order to control correctly the speed of the propellers, the acclerometer, the transmission, ecc.
+This repository contains the code that I am developing for the creation of a quadcopter controller. The idea is to use a nucleo STM32 F401RE as the drone controller in order to control correctly each ESC, the accelerometer/gyre and the transmission between user and STM.
 
-This project is inspired by another STM quadcopter developed some years ago by Brokking [here](http://www.brokking.net/ymfc-32_main.html) the link to its webiste and here the [link](https://www.youtube.com/user/MacPuffdog) to his video tutorials.
+This project is inspired by another STM quadcopter developed some years ago by Brokking [here](http://www.brokking.net/ymfc-32_main.html) the link to its webiste and [here](https://www.youtube.com/user/MacPuffdog) the link to his video tutorials.
 
 Up to now the hardware that I used is:
 
@@ -12,18 +12,25 @@ Up to now the hardware that I used is:
 - 1 x  Battery connector male/female - XT60 : [Aliexpress link](https://it.aliexpress.com/item/33004745121.html?spm=a2g0s.9042311.0.0.27424c4dGhvzAx)
 - 1 x lipo battery - 2200 mAh - 11.1V - 3S - 30C : [Aliexpress link](https://it.aliexpress.com/item/1005003134034389.html?spm=a2g0s.9042311.0.0.27424c4dGhvzAx)
 - 1 x Battery lipo charger: [Aliexpress link](https://it.aliexpress.com/item/4000917057193.html?spm=a2g0s.9042311.0.0.27424c4dGhvzAx)
+- 1 x drone frame f450: [no link]()
 
-
+Just for initial prototyping I am controlling the drone actions with bluetooth. I am using an HC-05 bluetooth device connected to the STM and I send the control from an adroid app on my phone (arduino bluetooth controller). The app allows me to map to each control on the joystick a specific character that is sent when the button is touched.
 
 ### TO DO
 
 - Include accelerometer in code
+- Implement PID control to maintain the one axis prototype leveled even with perturbations
 - Manually calibrate each motor on the same PWM range
-- Build hardware frame (3d print? / wood?)
-- Organize well libraries from beginning
-- Add code for receiving data from IMU/gyro
-- Add code for using infro from accelerometer to obtain angle
-- Add code for using angle as PID controller of ESC
-- search a compatible/small/low cost receiver/transmitter (for now control drone through keyboard, WASD)
+- Implement I2C communication for the gyreo/IMU
+- Implement computation of angle from gyro data/ signal processing
+- Find a compatible/low cost/small radio controller(?) for future finished project
 
 Future idea is to take the entire project and migrate it to a smaller microcontroller, for example the STM bluepill.
+
+# SITUATION UP TO NOW
+
+<img src="https://github.com/AlessandroAvi/STM_quadcopter/tree/main/Images/OneAxisPrototype1.jpg" width=70% height=70%>
+
+<img src="https://github.com/AlessandroAvi/STM_quadcopter/tree/main/Images/OneAxisPrototype2.jpg" width=70% height=70%>
+
+<img src="https://github.com/AlessandroAvi/STM_quadcopter/tree/main/Images/OneAxisPrototype.gif" width=70% height=70%>
