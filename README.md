@@ -29,8 +29,8 @@ Future idea is to take the entire project and migrate it to a smaller microcontr
 
 # SITUATION UP TO NOW
 
-<img src="https://github.com/AlessandroAvi/STM_quadcopter/tree/main/Images/OneAxisPrototype1.jpg" width=70% height=70%>
+<img src="https://github.com/AlessandroAvi/STM_quadcopter/blob/main/Images/OneAxisPrototype1.jpg" width=70% height=70%>
 
-<img src="https://github.com/AlessandroAvi/STM_quadcopter/tree/main/Images/OneAxisPrototype2.jpg" width=70% height=70%>
+<img src="https://github.com/AlessandroAvi/STM_quadcopter/blob/main/Images/OneAxisPrototype2.jpg" width=70% height=70%>
 
-<img src="https://github.com/AlessandroAvi/STM_quadcopter/tree/main/Images/OneAxisPrototype.gif" width=70% height=70%>
+<img src="https://github.com/AlessandroAvi/STM_quadcopter/blob/main/Images/OneAxisPrototype.gif" width=70% height=70%>
