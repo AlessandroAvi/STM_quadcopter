@@ -108,8 +108,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
-  MX_TIM2_Init();
   MX_USART6_UART_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
 
@@ -117,11 +117,12 @@ int main(void)
   PRINTF("\n\r BEGINNING OF THE CODE \n\n\r");
 
   // Start the counter for the PWM signal
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
 
   HAL_UART_Receive_IT(&huart6, (uint8_t*)cmd_rx, 1);
-
 
   ESC_STATUS ESC_speed;
 
@@ -129,6 +130,11 @@ int main(void)
   ESC_speed.FL = 0;
   ESC_speed.RR = 0;
   ESC_speed.RL = 0;
+
+  TIM3->CCR1 = ESC_speed.FR + 1000;
+  TIM3->CCR2 = ESC_speed.FL + 1000;
+  TIM3->CCR3 = ESC_speed.RR + 1000;
+  TIM3->CCR4 = ESC_speed.RL + 1000;
 
 
   /* USER CODE END 2 */
@@ -139,52 +145,15 @@ int main(void)
   {
 	  if(BLUE_BUTTON == 1){
 
-		  HAL_UART_Transmit(&huart2, (uint8_t*)cmd_rx, 1, 1000);
+		  //HAL_UART_Transmit(&huart2, (uint8_t*)cmd_rx, 1, 1000);
 
-		  /*
-		  if(cmd_rx[0] == 'A' || cmd_rx[0] == 'a'){
-			  ESC_speed.FL += 1;
-			  if(ESC_speed.FR != 0){
-				  ESC_speed.FR -= 1;
-			  }
-		  }else if(cmd_rx[0] == 'D' || cmd_rx[0] == 'd'){
-			  ESC_speed.FR += 1;
-			  if(ESC_speed.FL != 0){
-				  ESC_speed.FL -= 1;
-			  }
-		  }else if(cmd_rx[0] == 'W' || cmd_rx[0] == 'w'){
-			  ESC_speed.FR += 1;
-			  ESC_speed.FL += 1;
-		  }else if(cmd_rx[0] == 'S' || cmd_rx[0] == 's'){
-			  if(ESC_speed.FR != 0){
-				  ESC_speed.FR -= 1;
-			  }
-			  if(ESC_speed.FL != 0){
-				  ESC_speed.FL -= 1;
-			  }
-		  }
+		  CMD_transform(&ESC_speed, cmd_rx[0]);
+		  ESC_setSpeed(&ESC_speed);
 
-		  if(ESC_speed.FL > 500){
-			  ESC_speed.FL = 500;
-		  }else if(ESC_speed.FL <= 0 || ESC_speed.FL > 1000){
-			  ESC_speed.FL = 0;
-		  }
-
-		  if(ESC_speed.FR > 500){
-			  ESC_speed.FR = 500;
-		  }else if(ESC_speed.FR <= 0 || ESC_speed.FR >1000){
-			  ESC_speed.FR = 0;
-		  }
-
-		  msgLen = sprintf(msgDebug, "\n\r UART INTERRUPT");
+		  msgLen = sprintf(msgDebug, "\n\r BLUETOOTH MSG");
 		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
-		  msgLen = sprintf(msgDebug, "\n\r   LEFT %d    - RIGHT %d", ESC_speed.FL, ESC_speed.FR);
+		  msgLen = sprintf(msgDebug, "\n\r   FRONTT LEFT %d  -  FRONT RIGHT %d  -  REAR LEFT %d - REAR RIGHT %d", ESC_speed.FL, ESC_speed.FR, ESC_speed.RL, ESC_speed.RR);
 		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
-
-
-		  // the pulse must go from 0 to 1000, the CCR value can go from 1000 to 2000
-		  ESC_setSpeed(dutyCycle, &ESC_speed);
-		  */
 
 		  BLUE_BUTTON = 0;
 	  }

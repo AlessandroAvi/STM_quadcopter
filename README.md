@@ -20,8 +20,7 @@ Just for initial prototyping I am controlling the drone actions with bluetooth. 
 
 - Include accelerometer in code
 - Implement PID control to maintain the one axis prototype leveled even with perturbations
-- Manually calibrate each motor on the same PWM range
-- Implement I2C communication for the gyreo/IMU
+- Implement I2C communication for the gyro/IMU
 - Implement computation of angle from gyro data/ signal processing
 - Find a compatible/low cost/small radio controller(?) for future finished project
 

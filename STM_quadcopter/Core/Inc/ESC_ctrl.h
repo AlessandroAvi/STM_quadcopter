@@ -18,6 +18,8 @@ extern char cmd_rx[1];
 
 
 
-void ESC_setSpeed(int dutyCycle, ESC_STATUS * ESC_speed);
+void ESC_setSpeed(ESC_STATUS * ESC_speed);
+
+void CMD_transform(ESC_STATUS * ESC_speed, char cmd);
 
 void ESC_initialSetUp();
