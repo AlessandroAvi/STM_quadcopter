@@ -32,6 +32,22 @@ Just for initial prototyping I am controlling the drone actions with bluetooth. 
 
 Future idea is to take the entire project and migrate it to a smaller microcontroller, for example the STM bluepill.
 
+## COMPONENTS FOR FUTURE IMPLEMENTATION
+
+| **COMPONENT**           | **MODEL**                    | **N OF PIECES** | **COST €**| **LINK** |
+| ----------------------- |:----------------------------:|:---------------:|:---------:| --------:|
+| STM blackpill           | STM32 F411                   | 2               | 6.68x2    | [here](https://it.aliexpress.com/item/32792513237.html?spm=a2g0s.9042311.0.0.74a34c4dBViBGv)
+| ST link                 | -                            | 1               | 3.45      | [here](https://it.aliexpress.com/item/32792513237.html?spm=a2g0s.9042311.0.0.74a34c4dBViBGv)
+| GPS                     | ??                           | 1               | ??        | [no link]()
+| NRF24 tx + antenna      | NRF24L01                     | 2               | 1.85 x 2  | [here](https://it.aliexpress.com/item/32272725011.html?spm=a2g0s.9042311.0.0.74a34c4dBViBGv)
+| FPV camera              | -                            | 1               | -         | [no link]()
+| Display                 | TFT display screen 480x320   | 1               | 22.25     | [here](https://www.ebay.it/itm/253747582718)
+| Joystick                | arduino joystick analog      | 2               | 0.52x2    | [here](https://it.aliexpress.com/item/32263199828.html?spm=a2g0s.9042311.0.0.74a34c4dBViBGv)
+| PCB for tx cntrl        | -                            | 1               | -         | [no link]()
+| PCB for flight cntrl    | -                            | 1               | -         | [no link]()
+| Battery holder          | -                            | 1               | -         | [no link]()
+
+
 # SITUATION UP TO NOW
 
 <img src="https://github.com/AlessandroAvi/STM_quadcopter/blob/main/Images/OneAxisPrototype1.jpg" width=70% height=70%>
