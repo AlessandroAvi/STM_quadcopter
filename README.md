@@ -40,7 +40,7 @@ Future idea is to take the entire project and migrate it to a smaller microcontr
 | ST link                 | -                            | 1               | 3.45      | [here](https://it.aliexpress.com/item/32792513237.html?spm=a2g0s.9042311.0.0.74a34c4dBViBGv)
 | GPS                     | GY-NEO6MV2                   | 1               | 2.97      | [here](https://it.aliexpress.com/item/1005001635722164.html?spm=a2g0o.productlist.0.0.2cda6cbasI9OK1&algo_pvid=14b9cbef-8043-4b47-ab6c-e60a8ce52c07&aem_p4p_detail=202112100019011915512198914790005598781&algo_exp_id=14b9cbef-8043-4b47-ab6c-e60a8ce52c07-2&pdp_ext_f=%7B%22sku_id%22%3A%2212000017044837230%22%7D)
 | NRF24 tx + antenna      | NRF24L01                     | 2               | 1.85 x 2  | [here](https://it.aliexpress.com/item/32272725011.html?spm=a2g0s.9042311.0.0.74a34c4dBViBGv)
-| FPV camera              | -                            | 1               | -         | [no link]()
+| FPV camera              | OV2640 2MP                   | 1               | 4.74      | [here](https://it.aliexpress.com/item/33046344720.html?spm=a2g0s.9042311.0.0.34784c4d8o1aSF)
 | PCB for flight cntrl    | -                            | 1               | -         | [no link]()
 
 
