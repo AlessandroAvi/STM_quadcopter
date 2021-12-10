@@ -27,7 +27,7 @@ Just for initial prototyping I am controlling the drone actions with bluetooth. 
 - Implement I2C communication for the gyro/IMU
 - Implement computation of angle from gyro data/ signal processing
 - Find a compatible/low cost/small radio controller(?) for future finished project ( NRF24L01 ?)
-- Migrate all the code and project to a STM32 BluePill (STM32 F103) + custom PCB
+- Migrate all the code and project to a STM32 Blackpill (STM32 F10F411) + custom PCB
 - Create a controller with another STM32 BluePill + NRF24L01 (with antenna) + 2 batteries 18650 + 2 joysticks + custom PCB 
 
 Future idea is to take the entire project and migrate it to a smaller microcontroller, for example the STM bluepill.
@@ -41,11 +41,8 @@ Future idea is to take the entire project and migrate it to a smaller microcontr
 | GPS                     | GY-NEO6MV2                   | 1               | 2.97      | [here](https://it.aliexpress.com/item/1005001635722164.html?spm=a2g0o.productlist.0.0.2cda6cbasI9OK1&algo_pvid=14b9cbef-8043-4b47-ab6c-e60a8ce52c07&aem_p4p_detail=202112100019011915512198914790005598781&algo_exp_id=14b9cbef-8043-4b47-ab6c-e60a8ce52c07-2&pdp_ext_f=%7B%22sku_id%22%3A%2212000017044837230%22%7D)
 | NRF24 tx + antenna      | NRF24L01                     | 2               | 1.85 x 2  | [here](https://it.aliexpress.com/item/32272725011.html?spm=a2g0s.9042311.0.0.74a34c4dBViBGv)
 | FPV camera              | -                            | 1               | -         | [no link]()
-| Display                 | TFT display screen 480x320   | 1               | 22.25     | [here](https://www.ebay.it/itm/253747582718)
-| Joystick                | arduino joystick analog      | 2               | 0.52x2    | [here](https://it.aliexpress.com/item/32263199828.html?spm=a2g0s.9042311.0.0.74a34c4dBViBGv)
-| PCB for tx cntrl        | -                            | 1               | -         | [no link]()
 | PCB for flight cntrl    | -                            | 1               | -         | [no link]()
-| Battery holder          | for 3 batteries 18650        | 1               | 0.73      | [here](https://it.aliexpress.com/item/1005002410468384.html?spm=a2g0o.productlist.0.0.56313a21GUZq3K&algo_pvid=54f28b8d-b266-48cd-a70a-93b899a8bcd3&aem_p4p_detail=202112100021489728919746521060005601596&algo_exp_id=54f28b8d-b266-48cd-a70a-93b899a8bcd3-1&pdp_ext_f=%7B%22sku_id%22%3A%2212000020563128549%22%7D)
+
 
 
 # SITUATION UP TO NOW
