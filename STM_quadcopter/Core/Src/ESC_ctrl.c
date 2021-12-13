@@ -8,13 +8,7 @@ char cmd_rx[1];
 
 // FUNCTIONS *****************************
 
-void ESC_setSpeed(ESC_STATUS * ESC_speed){
-
-	TIM3->CCR1 = ESC_speed->FR + 1000;
-	TIM3->CCR2 = ESC_speed->FL + 1000;
-	TIM3->CCR3 = ESC_speed->RR + 1000;
-	TIM3->CCR4 = ESC_speed->RL + 1000;
-
+void ESC_setSpeed(ESC_STATUS * ESC_speed, double gx, double gy, double gz){
 
 	  if(ESC_speed->FL > 1000){
 		  ESC_speed->FL = 1000;
@@ -41,6 +35,12 @@ void ESC_setSpeed(ESC_STATUS * ESC_speed){
 	  }
 
 
+	double variation = gx*10;
+
+	TIM3->CCR1 = ESC_speed->FR + 1000 + variation;
+	TIM3->CCR2 = ESC_speed->FL + 1000 - variation;
+	TIM3->CCR3 = ESC_speed->RR + 1000;
+	TIM3->CCR4 = ESC_speed->RL + 1000;
 }
 
 

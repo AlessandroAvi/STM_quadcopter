@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -31,6 +32,7 @@
 // My libraries
 #include "ESC_ctrl.h"
 #include "debug.h"
+#include "MPU6050.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -110,6 +112,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART6_UART_Init();
   MX_TIM3_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
 
 
@@ -123,6 +126,8 @@ int main(void)
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
 
   HAL_UART_Receive_IT(&huart6, (uint8_t*)cmd_rx, 1);
+
+  MPU6050_Init();
 
   ESC_STATUS ESC_speed;
 
@@ -143,12 +148,17 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+	  MPU6050_ReadGyro();
+	  msg_len = sprintf(msg_debug, "GYRO :x %f - y %f - z %f \r", gx*10, gy, gz);
+	  HAL_UART_Transmit(&huart2, (uint8_t*)msg_debug, msg_len, 500);
+
 	  if(BLUE_BUTTON == 1){
 
 		  //HAL_UART_Transmit(&huart2, (uint8_t*)cmd_rx, 1, 1000);
 
 		  CMD_transform(&ESC_speed, cmd_rx[0]);
-		  ESC_setSpeed(&ESC_speed);
+		  ESC_setSpeed(&ESC_speed, gx, gy, gz);
 
 		  msgLen = sprintf(msgDebug, "\n\r BLUETOOTH MSG");
 		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
@@ -157,6 +167,8 @@ int main(void)
 
 		  BLUE_BUTTON = 0;
 	  }
+
+	  HAL_Delay(200);
 
     /* USER CODE END WHILE */
 

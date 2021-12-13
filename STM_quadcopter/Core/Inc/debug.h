@@ -2,6 +2,9 @@
 #include "main.h"
 
 
+int msg_len;
+char msg_debug[100];
+
 void PRINTF(char str[100]);
 
 

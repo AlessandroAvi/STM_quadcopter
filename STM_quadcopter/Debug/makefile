@@ -62,7 +62,7 @@ main-build: STM_quadcopter.elf secondary-outputs
 
 # Tool invocations
 STM_quadcopter.elf: $(OBJS) $(USER_OBJS) C:\Users\massi\OneDrive\Documenti\STM32\ projects\STM_quadcopter\STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM_quadcopter.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\massi\OneDrive\Documenti\STM32 projects\STM_quadcopter\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM_quadcopter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "STM_quadcopter.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\massi\OneDrive\Documenti\STM32 projects\STM_quadcopter\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM_quadcopter.map" -Wl,--gc-sections -static -u_printf_float --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

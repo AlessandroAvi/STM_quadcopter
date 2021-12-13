@@ -1,2 +1,2 @@
-ESC_ctrl.c:11:6:ESC_setSpeed	16	static
+ESC_ctrl.c:11:6:ESC_setSpeed	56	static
 ESC_ctrl.c:49:6:CMD_transform	40	static
