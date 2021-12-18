@@ -159,20 +159,18 @@ int main(void)
 	  // Receive the command from the radio/bl controller
 	  if(BLUETOOTH_FLAG == 1){
 
-		  CMD_transform(&ESC_speed, cmd_rx[0]);
-
-		  msgLen = sprintf(msgDebug, "\n\r   FRONTT LEFT %d  -  FRONT RIGHT %d  -  REAR LEFT %d - REAR RIGHT %d", ESC_speed.FL, ESC_speed.FR, ESC_speed.RL, ESC_speed.RR);
+		  msgLen = sprintf(msgDebug, "\n\r   FRONTT LEFT %d  -  FRONT RIGHT %d  -  REAR LEFT %d - REAR RIGHT %d \r\n", ESC_speed.FL, ESC_speed.FR, ESC_speed.RL, ESC_speed.RR);
 		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
 
 		  BLUETOOTH_FLAG = 0;
+	  }else{
+		  cmd_rx[0] = ' ';
 	  }
 
 
-	  //ESC_setSpeed(&ESC_speed, angle_x, angle_y, angle_z);
+
 	  ESC_followCmd(&ESC_speed, &MPU_measure, cmd_rx[0]);
 	  ESC_setSpeed(&ESC_speed);
-
-
 
     /* USER CODE END WHILE */
 

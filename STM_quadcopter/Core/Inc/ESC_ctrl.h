@@ -12,10 +12,12 @@ typedef enum{
 
 typedef struct{
 
-	uint16_t FR;
-	uint16_t FL;
-	uint16_t RR;
-	uint16_t RL;
+	int16_t FR;
+	int16_t FL;
+	int16_t RR;
+	int16_t RL;
+
+	int16_t up_value;
 
 	ESC_STATE state;
 
