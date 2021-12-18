@@ -32,7 +32,6 @@
 // My libraries
 #include "ESC_ctrl.h"
 #include "debug.h"
-#include "MPU6050.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,6 +65,9 @@ int BLUETOOTH_FLAG = 0;
 // CONTAINERS
 int dutyCycle = 0;
 int dummy=0;
+
+IMU_MEASURE MPU_measure;
+
 
 /* USER CODE END PV */
 
@@ -115,41 +117,36 @@ int main(void)
   MX_TIM10_Init();
   /* USER CODE BEGIN 2 */
 
+  PRINTF("\n\r BEGINNING OF THE CODE \n\n\r");
 
   // Start timer interrupt that enables the GYRO reading 250 Hz
   HAL_TIM_Base_Start_IT(&htim10);
 
-  //PRINTF("\n\r BEGINNING OF THE CODE \n\n\r");
-
-  // Start the counter for the PWM signal
+  // Start timer for the PWM signal
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
 
+  // Start interrupt for bluetooth Rx commands
   HAL_UART_Receive_IT(&huart6, (uint8_t*)cmd_rx, 1);
 
+  ESC_CONF ESC_speed;
 
+  PRINTF(" -- Press blue button to start the code \n\n\r");
   while(BLUE_BUTTON==0){
 	  if(BLUE_BUTTON==1){
 		  break;
 	  }
   }
 
-  MPU6050_Init();
+  MPU6050_Init(&MPU_measure);
 
-  ESC_STATUS ESC_speed;
+  ESC_Init(&ESC_speed);
 
-  ESC_speed.FR = 0;
-  ESC_speed.FL = 0;
-  ESC_speed.RR = 0;
-  ESC_speed.RL = 0;
 
-  // Set PWM to 0 for the ESC (1 ms)
-  TIM3->CCR1 = ESC_speed.FR + 1000;
-  TIM3->CCR2 = ESC_speed.FL + 1000;
-  TIM3->CCR3 = ESC_speed.RR + 1000;
-  TIM3->CCR4 = ESC_speed.RL + 1000;
+
+
 
   /* USER CODE END 2 */
 
@@ -158,32 +155,23 @@ int main(void)
   while (1)
   {
 
-	  msgLen = sprintf(msgDebug, "%f,%f,%f\n\r", angle_x, angle_y, angle_z);
-	  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 100);
 
-	  //HAL_Delay(250);
-
-
-
-	  ESC_setSpeed(&ESC_speed, angle_x, angle_y, angle_z);
-
-
-
-
+	  // Receive the command from the radio/bl controller
 	  if(BLUETOOTH_FLAG == 1){
 
-		  //HAL_UART_Transmit(&huart2, (uint8_t*)cmd_rx, 1, 1000);
-
 		  CMD_transform(&ESC_speed, cmd_rx[0]);
-		  ESC_setSpeed(&ESC_speed, 0, 0, 0);
 
-		  msgLen = sprintf(msgDebug, "\n\r BLUETOOTH MSG");
-		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
 		  msgLen = sprintf(msgDebug, "\n\r   FRONTT LEFT %d  -  FRONT RIGHT %d  -  REAR LEFT %d - REAR RIGHT %d", ESC_speed.FL, ESC_speed.FR, ESC_speed.RL, ESC_speed.RR);
 		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
 
 		  BLUETOOTH_FLAG = 0;
 	  }
+
+
+	  //ESC_setSpeed(&ESC_speed, angle_x, angle_y, angle_z);
+	  ESC_followCmd(&ESC_speed, &MPU_measure, cmd_rx[0]);
+	  ESC_setSpeed(&ESC_speed);
+
 
 
     /* USER CODE END WHILE */
@@ -245,7 +233,8 @@ void SystemClock_Config(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 	if(htim == &htim10){
-		MPU6050_ReadGyro();
+		MPU6050_ReadAcc(&MPU_measure);
+		MPU6050_ReadGyro(&MPU_measure);
 	}
 }
 

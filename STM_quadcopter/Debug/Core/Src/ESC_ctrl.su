@@ -1,2 +1,4 @@
-ESC_ctrl.c:11:6:ESC_setSpeed	56	static
-ESC_ctrl.c:49:6:CMD_transform	40	static
+ESC_ctrl.c:10:6:ESC_Init	16	static
+ESC_ctrl.c:27:6:ESC_followCmd	96	static
+ESC_ctrl.c:99:6:ESC_setSpeed	24	static
+ESC_ctrl.c:138:6:CMD_transform	40	static

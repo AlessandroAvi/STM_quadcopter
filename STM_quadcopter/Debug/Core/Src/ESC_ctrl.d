@@ -29,7 +29,8 @@ Core/Src/ESC_ctrl.o: ../Core/Src/ESC_ctrl.c ../Core/Inc/ESC_ctrl.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/tim.h ../Core/Inc/tim.h
+ ../Core/Inc/tim.h ../Core/Inc/MPU6050.h ../Core/Inc/i2c.h \
+ ../Core/Inc/debug.h ../Core/Inc/usart.h ../Core/Inc/tim.h
 
 ../Core/Inc/ESC_ctrl.h:
 
@@ -96,5 +97,13 @@ Core/Src/ESC_ctrl.o: ../Core/Src/ESC_ctrl.c ../Core/Inc/ESC_ctrl.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 
 ../Core/Inc/tim.h:
+
+../Core/Inc/MPU6050.h:
+
+../Core/Inc/i2c.h:
+
+../Core/Inc/debug.h:
+
+../Core/Inc/usart.h:
 
 ../Core/Inc/tim.h:

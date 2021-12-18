@@ -3,9 +3,10 @@
 #include "debug.h"
 #include "string.h"
 #include "stdio.h"
+#include <math.h>
 
-
-// I2C REGISTER ADDRESSES
+// -------------------------------
+// I2C REGISTER ADDRESSES -----
 
 #define MPU6050_ADDR 		0X68 << 1
 #define SMPLRT_DIV_REG 		0X19		// where sample rate is stored
@@ -36,47 +37,74 @@
 
 
 
-#define REC_SIZE			2
+
+
+
+// -------------------------------
+// IMU PARAMETERS
+
+
+#define CALIBRATION_TIME  	2
 #define SAMPL_FREQ 			250
+#define PI 					3.14159265
+#define DEG_TO_RAD 			PI/180
+#define RAD_TO_DEG 			180/PI
 
-uint8_t MPU_STATE;
+typedef enum{
+	DISABLED = 0,
+	CALIBRATION = 1,
+	READY
+}IMU_STATE;
 
-int16_t acc_X_raw;
-int16_t acc_Y_raw;
-int16_t acc_Z_raw;
+typedef struct{
+	double angle_X;
+	double angle_Y;
+	double angle_Z;
 
-int16_t gyro_X_raw;
-int16_t gyro_Y_raw;
-int16_t gyro_Z_raw;
+	double angle_dX;
+	double angle_dY;
+	double angle_dZ;
 
-uint8_t rec_data1[6];
-uint8_t rec_data2[6];
+	double acc_X;
+	double acc_Y;
+	double acc_Z;
 
-double ax, ay, az;
-
-double gyro_X_scaled, gyro_Y_scaled, gyro_Z_scaled;
-double avrg_gX, avrg_gY, avrg_gZ;
-double angle_x, angle_y, angle_z;
-
-
+}IMU_MEASURE;
 
 int millis;
-
-
-
-
-
-//double arr_gx[REC_SIZE*SAMPL_FREQ], arr_gy[REC_SIZE*SAMPL_FREQ], arr_gz[REC_SIZE*SAMPL_FREQ];
-int arr_time[REC_SIZE*SAMPL_FREQ];
 uint16_t iter;
-int STOP_REC_FLAG;
-
-// Debug message
-char debug_gyro[100];
-char debug_acc[100];
 
 
-// fUNCTIONS
-void MPU6050_Init();
-void MPU6050_ReadAcc(void);
-void MPU6050_ReadGyro(void);
+// -------------------------------
+// Accelerometer
+
+uint8_t rec_data1[6];
+
+int16_t acc_X_raw, acc_Y_raw, acc_Z_raw;
+double acc_X, acc_Y, acc_Z;
+int ACC_SCALE_FACTOR;
+
+
+// -------------------------------
+// Gyroscope
+
+uint8_t rec_data2[6];
+
+int16_t gyro_X_raw, gyro_Y_raw, gyro_Z_raw;
+double gyro_X_scaled, gyro_Y_scaled, gyro_Z_scaled;
+double avrg_gX, avrg_gY, avrg_gZ;
+double GYRO_SCALE_FACTOR;
+
+
+
+
+
+
+// -------------------------------
+// FUNCTIONS
+
+void MPU6050_Init(IMU_MEASURE * MPU_measure);
+
+void MPU6050_ReadAcc(IMU_MEASURE * MPU_measure);
+
+void MPU6050_ReadGyro(IMU_MEASURE * MPU_measure);
