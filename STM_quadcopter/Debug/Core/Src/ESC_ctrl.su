@@ -1,3 +1,4 @@
 ESC_ctrl.c:10:6:ESC_Init	16	static
-ESC_ctrl.c:29:6:ESC_followCmd	104	static
-ESC_ctrl.c:136:6:ESC_setSpeed	16	static
+ESC_ctrl.c:28:6:ESC_Calibrate	16	static
+ESC_ctrl.c:39:6:ESC_followCmd	104	static
+ESC_ctrl.c:145:6:ESC_setSpeed	16	static

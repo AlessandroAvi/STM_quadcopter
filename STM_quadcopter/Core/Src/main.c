@@ -133,6 +133,8 @@ int main(void)
 
   ESC_CONF ESC_speed;
 
+  ESC_Calibrate(&ESC_speed);
+
   PRINTF(" -- Press blue button to start the code \n\n\r");
   while(BLUE_BUTTON==0){
 	  if(BLUE_BUTTON==1){
@@ -156,7 +158,7 @@ int main(void)
   while (1)
   {
 
-	  if(ACC_STATE == READY){
+	  if(ACC_STATE == READY && GYRO_STATE == READY){
 		  char messaggio[100];
 		  int lengh = sprintf(messaggio, "ACC: x %f, y %f \n\r", MPU_measure.angle_X, MPU_measure.angle_Y);
 		  HAL_UART_Transmit(&huart2, (uint8_t*)messaggio, lengh, 50);
@@ -166,18 +168,21 @@ int main(void)
 	  // Receive the command from the radio/bl controller
 	  if(BLUETOOTH_FLAG == 1){
 
-		  msgLen = sprintf(msgDebug, "\n\r   FRONTT LEFT %d  -  FRONT RIGHT %d  -  REAR LEFT %d - REAR RIGHT %d \r\n", ESC_speed.FL, ESC_speed.FR, ESC_speed.RL, ESC_speed.RR);
-		  HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
+		  //msgLen = sprintf(msgDebug, "\n\r   FRONTT LEFT %d  -  FRONT RIGHT %d  -  REAR LEFT %d - REAR RIGHT %d \r\n", ESC_speed.FL, ESC_speed.FR, ESC_speed.RL, ESC_speed.RR);
+		  //HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
 
 		  BLUETOOTH_FLAG = 0;
 	  }else{
 		  cmd_rx[0] = ' ';
 	  }
 
-
-
 	  ESC_followCmd(&ESC_speed, &MPU_measure, cmd_rx[0]);
 	  ESC_setSpeed(&ESC_speed);
+
+	  //msgLen = sprintf(msgDebug, "\r FRONTT LEFT %d  -  FRONT RIGHT %d  -  REAR LEFT %d - REAR RIGHT %d", ESC_speed.FL, ESC_speed.FR, ESC_speed.RL, ESC_speed.RR);
+	  //HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
+
+
 
     /* USER CODE END WHILE */
 

@@ -2,6 +2,9 @@
 #include "tim.h"
 #include "MPU6050.h"
 
+#define PWM_1_MS 	1200
+#define PWM_2_MS 	2400
+
 
 typedef enum{
 	DISARMED = 0,
@@ -30,6 +33,8 @@ extern char cmd_rx[1];
 
 
 void ESC_Init(ESC_CONF * ESC_speed);
+
+void ESC_Calibrate(ESC_CONF * ESC_speed);
 
 void ESC_followCmd(ESC_CONF * ESC_speed, IMU_MEASURE * MPU_measure,  char cmd);
 
