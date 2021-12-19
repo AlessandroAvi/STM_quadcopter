@@ -27,10 +27,8 @@ Just for initial prototyping I am controlling the drone actions with bluetooth. 
 
 # TO DO
 
-- Include accelerometer in code
-- Implement PID control to maintain the one axis prototype leveled even with perturbations
-- Implement I2C communication for the gyro/IMU
 - Implement computation of angle from gyro data/ signal processing
+- Tune correctly PD/PID
 - Migrate all the code and project to a STM32 Blackpill (STM32 F10F411) + custom PCB
 
 # SITUATION UP TO NOW

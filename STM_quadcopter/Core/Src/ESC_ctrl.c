@@ -28,9 +28,11 @@ void ESC_Init(ESC_CONF * ESC_speed){
 
 void ESC_followCmd(ESC_CONF * ESC_speed, IMU_MEASURE * MPU_measure, char cmd){
 
-	int dummy = 0;
 	int cmd_pitch = 0;
 	int cmd_roll  = 0;
+
+	int16_t low_lim = 0;
+	int16_t high_lim = 600;
 
 	// PID values
 	int P_pitch = 2;
@@ -67,7 +69,6 @@ void ESC_followCmd(ESC_CONF * ESC_speed, IMU_MEASURE * MPU_measure, char cmd){
 
 
 	}else if(cmd == 'J'){ // rotate left
-		dummy = 0;
 		PRINTF("ROT LEFT \n\r");
 
 
@@ -76,7 +77,6 @@ void ESC_followCmd(ESC_CONF * ESC_speed, IMU_MEASURE * MPU_measure, char cmd){
 		PRINTF("DOWN \n\r");
 
 	}else if(cmd == 'L'){ // rotate right
-		dummy = 0;
 		PRINTF("ROT RIGHT \n\r");
 
 
@@ -95,10 +95,10 @@ void ESC_followCmd(ESC_CONF * ESC_speed, IMU_MEASURE * MPU_measure, char cmd){
 	if(ESC_speed->state == ARMED){
 
 		double pitch_err   = cmd_pitch - MPU_measure->angle_X;
-		double pitch_d_err = MPU_measure->angle_dX;
+		double pitch_d_err = MPU_measure->gyro_angle_dX;
 
 		double roll_err    = cmd_roll  - MPU_measure->angle_Y;
-		double roll_d_err  = MPU_measure->angle_dY;
+		double roll_d_err  = MPU_measure->gyro_angle_dY;
 
 		// DA PROVARE NON SONO SICURO
 		int16_t FR_tmp = ESC_speed->up_value + pitch_err*P_pitch - pitch_d_err*D_pitch - roll_err*P_roll + roll_d_err*D_roll;
@@ -106,19 +106,19 @@ void ESC_followCmd(ESC_CONF * ESC_speed, IMU_MEASURE * MPU_measure, char cmd){
 		int16_t RR_tmp = ESC_speed->up_value - pitch_err*P_pitch + pitch_d_err*D_pitch - roll_err*P_roll + roll_d_err*D_roll;
 		int16_t RL_tmp = ESC_speed->up_value - pitch_err*P_pitch + pitch_d_err*D_pitch + roll_err*P_roll - roll_d_err*D_roll;
 
-		if(FR_tmp > 0 && FR_tmp < 600){
+		if(FR_tmp > low_lim && FR_tmp < high_lim){
 			ESC_speed->FR = FR_tmp;
 		}
 
-		if(FL_tmp > 0 && FL_tmp < 600){
+		if(FL_tmp > low_lim && FL_tmp < high_lim){
 			ESC_speed->FL = FL_tmp;
 		}
 
-		if(RR_tmp > 0 && RR_tmp < 600){
+		if(RR_tmp > low_lim && RR_tmp < high_lim){
 			ESC_speed->RR = RR_tmp;
 		}
 
-		if(RL_tmp > 0 && RL_tmp < 600){
+		if(RL_tmp > low_lim && RL_tmp < high_lim){
 			ESC_speed->RL = RL_tmp;
 		}
 
@@ -134,35 +134,6 @@ void ESC_followCmd(ESC_CONF * ESC_speed, IMU_MEASURE * MPU_measure, char cmd){
 
 
 void ESC_setSpeed(ESC_CONF * ESC_speed){
-
-	int16_t top_lim = 600;
-	int16_t low_lim = 0;
-
-	/*
-	if(ESC_speed->FL > top_lim){
-	  ESC_speed->FL = top_lim;
-	}else if(ESC_speed->FL <= low_lim){
-	  ESC_speed->FL = 0;
-	}
-
-	if(ESC_speed->FR > top_lim){
-	  ESC_speed->FR = top_lim;
-	}else if(ESC_speed->FR <= low_lim){
-	  ESC_speed->FR = 0;
-	}
-
-	if(ESC_speed->RR > top_lim){
-	  ESC_speed->RR = top_lim;
-	}else if(ESC_speed->RR <= low_lim){
-	  ESC_speed->RR = 0;
-	}
-
-	if(ESC_speed->RL > top_lim){
-	  ESC_speed->RL = top_lim;
-	}else if(ESC_speed->RL <= low_lim){
-	  ESC_speed->RL = 0;
-	}
-	*/
 
 	TIM3->CCR1 = ESC_speed->FR + 1000;
 	TIM3->CCR2 = ESC_speed->FL + 1000;

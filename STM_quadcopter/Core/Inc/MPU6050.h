@@ -46,9 +46,15 @@
 
 #define CALIBRATION_TIME  	2
 #define SAMPL_FREQ 			250
+
 #define PI 					3.14159265
 #define DEG_TO_RAD 			PI/180
 #define RAD_TO_DEG 			180/PI
+
+#define ACC_SCALE_FACTOR  	8192
+#define GYRO_SCALE_FACTOR 	65.5
+
+
 
 typedef enum{
 	DISABLED = 0,
@@ -57,45 +63,50 @@ typedef enum{
 }IMU_STATE;
 
 typedef struct{
+	double gyro_angle_X;
+	double gyro_angle_Y;
+	double gyro_angle_Z;
+
+	double gyro_angle_dX;
+	double gyro_angle_dY;
+	double gyro_angle_dZ;
+
+	double acc_angle_X;
+	double acc_angle_Y;
+
 	double angle_X;
 	double angle_Y;
 	double angle_Z;
 
-	double angle_dX;
-	double angle_dY;
-	double angle_dZ;
-
-	double acc_X;
-	double acc_Y;
-	double acc_Z;
-
 }IMU_MEASURE;
 
-int millis;
-uint16_t iter;
+
 
 
 // -------------------------------
 // Accelerometer
 
 uint8_t rec_data1[6];
+uint16_t iter_a;
 
 int16_t acc_X_raw, acc_Y_raw, acc_Z_raw;
-double acc_X, acc_Y, acc_Z;
-int ACC_SCALE_FACTOR;
+double acc_X_scaled, acc_Y_scaled, acc_Z_scaled;
+double avrg_aX, avrg_aY, avrg_aZ;
+double tot_acc;
 
+IMU_STATE ACC_STATE;
 
 // -------------------------------
 // Gyroscope
 
 uint8_t rec_data2[6];
+uint16_t iter_g;
 
 int16_t gyro_X_raw, gyro_Y_raw, gyro_Z_raw;
 double gyro_X_scaled, gyro_Y_scaled, gyro_Z_scaled;
 double avrg_gX, avrg_gY, avrg_gZ;
-double GYRO_SCALE_FACTOR;
 
-
+IMU_STATE GYRO_STATE;
 
 
 
@@ -103,8 +114,12 @@ double GYRO_SCALE_FACTOR;
 // -------------------------------
 // FUNCTIONS
 
+void MPU6050_Reset(IMU_MEASURE * MPU_measure);
+
 void MPU6050_Init(IMU_MEASURE * MPU_measure);
 
 void MPU6050_ReadAcc(IMU_MEASURE * MPU_measure);
 
 void MPU6050_ReadGyro(IMU_MEASURE * MPU_measure);
+
+void MPU6050_SensorFusion(IMU_MEASURE * MPU6050_measure);

@@ -141,6 +141,7 @@ int main(void)
   }
 
   MPU6050_Init(&MPU_measure);
+  MPU6050_Reset(&MPU_measure);
 
   ESC_Init(&ESC_speed);
 
@@ -154,6 +155,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+	  if(ACC_STATE == READY){
+		  char messaggio[100];
+		  int lengh = sprintf(messaggio, "ACC: x %f, y %f \n\r", MPU_measure.angle_X, MPU_measure.angle_Y);
+		  HAL_UART_Transmit(&huart2, (uint8_t*)messaggio, lengh, 50);
+	  }
 
 
 	  // Receive the command from the radio/bl controller
@@ -233,6 +240,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim == &htim10){
 		MPU6050_ReadAcc(&MPU_measure);
 		MPU6050_ReadGyro(&MPU_measure);
+		MPU6050_SensorFusion(&MPU_measure);
 	}
 }
 
