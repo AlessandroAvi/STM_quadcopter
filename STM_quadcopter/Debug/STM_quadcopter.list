@@ -1416,11 +1416,11 @@ void ESC_followCmd(ESC_CONF * ESC_speed, IMU_MEASURE * MPU_measure, char cmd){
  8000fe4:	79fb      	ldrb	r3, [r7, #7]
  8000fe6:	2b49      	cmp	r3, #73	; 0x49
  8000fe8:	d10c      	bne.n	8001004 <ESC_followCmd+0xa0>
-		ESC_speed->up_value += 50;
+		ESC_speed->up_value += 10;
  8000fea:	68fb      	ldr	r3, [r7, #12]
  8000fec:	f9b3 3008 	ldrsh.w	r3, [r3, #8]
  8000ff0:	b29b      	uxth	r3, r3
- 8000ff2:	3332      	adds	r3, #50	; 0x32
+ 8000ff2:	330a      	adds	r3, #10
  8000ff4:	b29b      	uxth	r3, r3
  8000ff6:	b21a      	sxth	r2, r3
  8000ff8:	68fb      	ldr	r3, [r7, #12]
@@ -2945,6 +2945,8 @@ void MPU6050_ReadGyro(IMU_MEASURE * MPU6050_measure){
 08001d78 <MPU6050_SensorFusion>:
 
 
+
+
 void MPU6050_SensorFusion(IMU_MEASURE * MPU6050_measure){
  8001d78:	b5b0      	push	{r4, r5, r7, lr}
  8001d7a:	b082      	sub	sp, #8
@@ -2961,7 +2963,7 @@ void MPU6050_SensorFusion(IMU_MEASURE * MPU6050_measure){
  8001d8c:	2b02      	cmp	r3, #2
  8001d8e:	d13d      	bne.n	8001e0c <MPU6050_SensorFusion+0x94>
 
-		MPU6050_measure->angle_X = MPU6050_measure->gyro_angle_X * 0.9996 +  MPU6050_measure->acc_angle_X * 0.0004;
+		MPU6050_measure->angle_X = MPU6050_measure->gyro_angle_X * 0.98 +  MPU6050_measure->acc_angle_X * 0.02;
  8001d90:	687b      	ldr	r3, [r7, #4]
  8001d92:	e9d3 0100 	ldrd	r0, r1, [r3]
  8001d96:	a320      	add	r3, pc, #128	; (adr r3, 8001e18 <MPU6050_SensorFusion+0xa0>)
@@ -2985,7 +2987,7 @@ void MPU6050_SensorFusion(IMU_MEASURE * MPU6050_measure){
  8001dc6:	460b      	mov	r3, r1
  8001dc8:	6879      	ldr	r1, [r7, #4]
  8001dca:	e9c1 2310 	strd	r2, r3, [r1, #64]	; 0x40
-		MPU6050_measure->angle_Y = MPU6050_measure->gyro_angle_Y * 0.9996 +  MPU6050_measure->acc_angle_Y * 0.0004;
+		MPU6050_measure->angle_Y = MPU6050_measure->gyro_angle_Y * 0.98 +  MPU6050_measure->acc_angle_Y * 0.02;
  8001dce:	687b      	ldr	r3, [r7, #4]
  8001dd0:	e9d3 0102 	ldrd	r0, r1, [r3, #8]
  8001dd4:	a310      	add	r3, pc, #64	; (adr r3, 8001e18 <MPU6050_SensorFusion+0xa0>)
@@ -3011,19 +3013,16 @@ void MPU6050_SensorFusion(IMU_MEASURE * MPU6050_measure){
  8001e08:	e9c1 2312 	strd	r2, r3, [r1, #72]	; 0x48
 
 	}
-
-
-
 }
  8001e0c:	bf00      	nop
  8001e0e:	3708      	adds	r7, #8
  8001e10:	46bd      	mov	sp, r7
  8001e12:	bdb0      	pop	{r4, r5, r7, pc}
  8001e14:	f3af 8000 	nop.w
- 8001e18:	23a29c78 	.word	0x23a29c78
- 8001e1c:	3feffcb9 	.word	0x3feffcb9
- 8001e20:	eb1c432d 	.word	0xeb1c432d
- 8001e24:	3f3a36e2 	.word	0x3f3a36e2
+ 8001e18:	f5c28f5c 	.word	0xf5c28f5c
+ 8001e1c:	3fef5c28 	.word	0x3fef5c28
+ 8001e20:	47ae147b 	.word	0x47ae147b
+ 8001e24:	3f947ae1 	.word	0x3f947ae1
  8001e28:	20000238 	.word	0x20000238
  8001e2c:	20000218 	.word	0x20000218
 

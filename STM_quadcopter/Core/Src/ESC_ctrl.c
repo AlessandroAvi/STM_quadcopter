@@ -56,50 +56,36 @@ void ESC_followCmd(ESC_CONF * ESC_speed, IMU_MEASURE * MPU_measure, char cmd){
 	if(cmd == 'W'){	// forward
 		cmd_pitch = -10;
 		PRINTF(" FORWARD \n\r");
-
-
 	}else if(cmd == 'A'){ // left
 		cmd_roll = -10;
 		PRINTF(" LEFT \n\r");
-
-
 	}else if(cmd == 'S'){ // back
 		cmd_pitch = 10;
 		PRINTF(" BACK \n\r");
-
-
 	}else if(cmd == 'D'){ // right
 		cmd_roll = +10;
 		PRINTF(" RIGHT \n\r");
-
-
 	}else if(cmd == 'I'){ // up
-		ESC_speed->up_value += 50;
+		ESC_speed->up_value += 10;
 		PRINTF(" UP \n\r");
-
-
 	}else if(cmd == 'J'){ // rotate left
 		PRINTF(" ROT LEFT \n\r");
-
-
 	}else if(cmd == 'K'){ // down
 		ESC_speed->up_value -= 50;
 		PRINTF(" DOWN \n\r");
-
 	}else if(cmd == 'L'){ // rotate right
 		PRINTF(" ROT RIGHT \n\r");
-
-
 	}else if(cmd == 'X'){ // disarm drone
 		ESC_speed->state = DISARMED;
 		PRINTF(" DISARM \n\r");
-
-
 	}else if(cmd == 'C'){ // arms DRONE
 		ESC_speed->state = ARMED;
 		PRINTF(" ARM \n\r");
+	}
 
-
+	// Security check to avoid dead bodies in the field
+	if(MPU_measure->angle_X > 10 || MPU_measure->angle_Y > 10){
+		ESC_speed->state == DISARMED;
 	}
 
 	if(ESC_speed->state == ARMED){

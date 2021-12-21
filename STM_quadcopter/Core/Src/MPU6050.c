@@ -193,15 +193,14 @@ void MPU6050_ReadGyro(IMU_MEASURE * MPU6050_measure){
 }
 
 
+
+
 void MPU6050_SensorFusion(IMU_MEASURE * MPU6050_measure){
 
 	if(GYRO_STATE==READY && ACC_STATE==READY){
 
-		MPU6050_measure->angle_X = MPU6050_measure->gyro_angle_X * 0.9996 +  MPU6050_measure->acc_angle_X * 0.0004;
-		MPU6050_measure->angle_Y = MPU6050_measure->gyro_angle_Y * 0.9996 +  MPU6050_measure->acc_angle_Y * 0.0004;
+		MPU6050_measure->angle_X = MPU6050_measure->gyro_angle_X * 0.98 +  MPU6050_measure->acc_angle_X * 0.02;
+		MPU6050_measure->angle_Y = MPU6050_measure->gyro_angle_Y * 0.98 +  MPU6050_measure->acc_angle_Y * 0.02;
 
 	}
-
-
-
 }

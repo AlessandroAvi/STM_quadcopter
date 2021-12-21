@@ -160,7 +160,7 @@ int main(void)
 
 	  if(ACC_STATE == READY && GYRO_STATE == READY){
 		  char messaggio[100];
-		  int lengh = sprintf(messaggio, "ACC: x %f, y %f \n\r", MPU_measure.angle_X, MPU_measure.angle_Y);
+		  int lengh = sprintf(messaggio, "ACC: x %f, y %f \n\r FL %d  -  FR %d  -  RL %d - RR %d \r\n", MPU_measure.angle_X, MPU_measure.angle_Y, ESC_speed.FL, ESC_speed.FR, ESC_speed.RL, ESC_speed.RR);
 		  HAL_UART_Transmit(&huart2, (uint8_t*)messaggio, lengh, 50);
 	  }
 
