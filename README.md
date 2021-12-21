@@ -30,6 +30,11 @@ Just for initial prototyping I am controlling the drone actions with bluetooth. 
 - Implement computation of angle from gyro data/ signal processing
 - Tune correctly PD/PID
 - Migrate all the code and project to a STM32 Blackpill (STM32 F10F411) + custom PCB
+- create 3d model of frame + print
+
+Useful link for sensor fusion between gyro and accelerometer with kalman filter 
+ [here](https://www.telesens.co/2017/05/02/sensor-fusion-part-3-implementation-of-gyro-accel-sensor-fusion/)
+
 
 # SITUATION UP TO NOW
 
