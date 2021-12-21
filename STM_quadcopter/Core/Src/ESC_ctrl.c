@@ -27,10 +27,10 @@ void ESC_Init(ESC_CONF * ESC_speed){
 
 void ESC_Calibrate(ESC_CONF * ESC_speed){
 
-	  TIM3->CCR1 = PWM_2_MS;
-	  TIM3->CCR2 = PWM_2_MS;
-	  TIM3->CCR3 = PWM_2_MS;
-	  TIM3->CCR4 = PWM_2_MS;
+	  TIM3->CCR1 = PWM_1_MS;
+	  TIM3->CCR2 = PWM_1_MS;
+	  TIM3->CCR3 = PWM_1_MS;
+	  TIM3->CCR4 = PWM_1_MS;
 
 	  ESC_speed->state = DISARMED;
 }
