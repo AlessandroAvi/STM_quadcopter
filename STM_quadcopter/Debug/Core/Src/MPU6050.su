@@ -1,5 +1,7 @@
-MPU6050.c:32:6:MPU6050_Init	40	static
+MPU6050.c:32:6:MPU6050_Init	32	static
 MPU6050.c:70:6:MPU6050_Reset	16	static
-MPU6050.c:90:6:MPU6050_ReadAcc	40	static
-MPU6050.c:143:6:MPU6050_ReadGyro	64	static
-MPU6050.c:198:6:MPU6050_SensorFusion	24	static
+MPU6050.c:98:6:MPU6050_ReadAcc	32	static
+MPU6050.c:121:6:MPU6050_ReadGyro	32	static
+MPU6050.c:142:6:MPU6050_ElaborateData	24	static
+MPU6050.c:190:6:MPU6050_SensorFusion	24	static
+MPU6050.c:203:6:MPU6050_ComplementFilter	40	static

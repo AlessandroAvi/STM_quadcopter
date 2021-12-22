@@ -66,6 +66,7 @@ int BLUETOOTH_FLAG = 0;
 int dutyCycle = 0;
 int dummy=0;
 
+
 IMU_MEASURE MPU_measure;
 
 
@@ -117,7 +118,7 @@ int main(void)
   MX_TIM10_Init();
   /* USER CODE BEGIN 2 */
 
-  PRINTF("\n\r BEGINNING OF THE CODE \n\n\r");
+  //PRINTF("\n\r BEGINNING OF THE CODE \n\n\r");
 
   // Start timer interrupt that enables the GYRO reading 250 Hz
   HAL_TIM_Base_Start_IT(&htim10);
@@ -135,14 +136,14 @@ int main(void)
 
   ESC_Calibrate(&ESC_speed);
 
-  PRINTF(" -- Press blue button to start the code \n\n\r");
+  //PRINTF(" -- Press blue button to start the code \n\n\r");
   while(BLUE_BUTTON==0){
 	  if(BLUE_BUTTON==1){
 		  break;
 	  }
   }
 
-  MPU6050_Init(&MPU_measure);
+  MPU6050_Init();
   MPU6050_Reset(&MPU_measure);
 
   ESC_Init(&ESC_speed);
@@ -159,9 +160,8 @@ int main(void)
   {
 
 	  if(ACC_STATE == READY && GYRO_STATE == READY){
-		  char messaggio[100];
-		  int lengh = sprintf(messaggio, "ACC: x %f, y %f \n\r FL %d  -  FR %d  -  RL %d - RR %d \r\n", MPU_measure.angle_X, MPU_measure.angle_Y, ESC_speed.FL, ESC_speed.FR, ESC_speed.RL, ESC_speed.RR);
-		  HAL_UART_Transmit(&huart2, (uint8_t*)messaggio, lengh, 50);
+		  //int lengh = sprintf(messaggio, "ACC: x %f, y %f \n\r FL %d  -  FR %d  -  RL %d - RR %d \r\n", MPU_measure.angle_X, MPU_measure.angle_Y, ESC_speed.FL, ESC_speed.FR, ESC_speed.RL, ESC_speed.RR);
+		  //HAL_UART_Transmit(&huart2, (uint8_t*)messaggio, lengh, 50);
 	  }
 
 
@@ -179,9 +179,14 @@ int main(void)
 	  ESC_followCmd(&ESC_speed, &MPU_measure, cmd_rx[0]);
 	  ESC_setSpeed(&ESC_speed);
 
-	  //msgLen = sprintf(msgDebug, "\r FRONTT LEFT %d  -  FRONT RIGHT %d  -  REAR LEFT %d - REAR RIGHT %d", ESC_speed.FL, ESC_speed.FR, ESC_speed.RL, ESC_speed.RR);
+	  //msgLen = sprintf(msgDebug, "\r CIAO");
 	  //HAL_UART_Transmit(&huart2, (uint8_t*)msgDebug, msgLen, 10);
 
+		char message[50];
+		int length = 0;
+
+		length = sprintf(message, "%f, %f, %f \r", MPU_measure.angle_X, MPU_measure.angle_Y, MPU_measure.angle_Z);
+		HAL_UART_Transmit(&huart2, (uint8_t*)message, length, 10);
 
 
     /* USER CODE END WHILE */
@@ -245,7 +250,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim == &htim10){
 		MPU6050_ReadAcc(&MPU_measure);
 		MPU6050_ReadGyro(&MPU_measure);
-		MPU6050_SensorFusion(&MPU_measure);
+		MPU6050_ComplementFilter(&MPU_measure);
 	}
 }
 

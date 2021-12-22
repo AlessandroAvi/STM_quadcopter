@@ -25,6 +25,9 @@ Total cost up to now: 79.23 €
 
 Just for initial prototyping I am controlling the drone actions with bluetooth. I am using an HC-05 bluetooth device connected to the STM and I send the control from an adroid app on my phone (arduino bluetooth controller). The app allows me to map to each button on the joystick a specific character. Future implementatios is to use a radio transmitter made with another STM that uses an NRF module.
 
+Tutorials for the complementary filter and kalman filter at [here](https://www.youtube.com/watch?v=BUW2OdAtzBw).
+A very nice tool that shows real tiem signal coming from the COM port [serial oscilloscope](https://x-io.co.uk/serial-oscilloscope/)
+
 # TO DO
 
 - Implement computation of angle from gyro data/ signal processing

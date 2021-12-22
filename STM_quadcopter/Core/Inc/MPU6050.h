@@ -54,6 +54,9 @@
 #define ACC_SCALE_FACTOR  	8192
 #define GYRO_SCALE_FACTOR 	65.5
 
+#define	GRAV_CONST 			9.81
+
+#define ALPHA_COMP			0.01
 
 
 typedef enum{
@@ -63,23 +66,31 @@ typedef enum{
 }IMU_STATE;
 
 typedef struct{
+
+	// Accelerometer containers
+	double acc_X;
+	double acc_Y;
+	double acc_Z;
+
+	double acc_angle_X;
+	double acc_angle_Y;
+	double acc_angle_Z;
+
+	// Gyroscope containers
+	double gyro_X;
+	double gyro_Y;
+	double gyro_Z;
+
 	double gyro_angle_X;
 	double gyro_angle_Y;
 	double gyro_angle_Z;
 
-	double gyro_angle_dX;
-	double gyro_angle_dY;
-	double gyro_angle_dZ;
-
-	double acc_angle_X;
-	double acc_angle_Y;
-
+	// Fusion containers
 	double angle_X;
 	double angle_Y;
 	double angle_Z;
 
 }IMU_MEASURE;
-
 
 
 
@@ -114,12 +125,15 @@ IMU_STATE GYRO_STATE;
 // -------------------------------
 // FUNCTIONS
 
-void MPU6050_Reset(IMU_MEASURE * MPU_measure);
+void MPU6050_Reset(IMU_MEASURE * measures);
 
-void MPU6050_Init(IMU_MEASURE * MPU_measure);
+void MPU6050_Init(void);
 
-void MPU6050_ReadAcc(IMU_MEASURE * MPU_measure);
+void MPU6050_ReadAcc(IMU_MEASURE * measures);
 
-void MPU6050_ReadGyro(IMU_MEASURE * MPU_measure);
+void MPU6050_ReadGyro(IMU_MEASURE * measures);
 
-void MPU6050_SensorFusion(IMU_MEASURE * MPU6050_measure);
+void MPU6050_SensorFusion(IMU_MEASURE * measures);
+
+void MPU6050_ComplementFilter(IMU_MEASURE * measures);
+
