@@ -1,5 +1,7 @@
 # STM quadcopter
 
+STILL WORK IN PROGRESS
+
 This repository contains the code that I am developing for the creation of a quadcopter controller. The idea is to use a nucleo STM32 F401RE as the drone controller in order to control correctly each ESC, the accelerometer/gyre and the transmission between user and STM.
 
 This project is inspired by another STM quadcopter developed some years ago by Brokking [here](http://www.brokking.net/ymfc-32_main.html) the link to its webiste and [here](https://www.youtube.com/user/MacPuffdog) the link to his video tutorials.
@@ -26,7 +28,7 @@ Total cost up to now: 79.23 €
 Just for initial prototyping I am controlling the drone actions with bluetooth. I am using an HC-05 bluetooth device connected to the STM and I send the control from an adroid app on my phone (arduino bluetooth controller). The app allows me to map to each button on the joystick a specific character. Future implementatios is to use a radio transmitter made with another STM that uses an NRF module.
 
 Tutorials for the complementary filter and kalman filter at [here](https://www.youtube.com/watch?v=BUW2OdAtzBw).
-A very nice tool that shows real tiem signal coming from the COM port [serial oscilloscope](https://x-io.co.uk/serial-oscilloscope/)
+A very nice tool that shows real time signal coming from the COM port [serial oscilloscope](https://x-io.co.uk/serial-oscilloscope/)
 
 # TO DO
 
@@ -46,3 +48,7 @@ Useful link for sensor fusion between gyro and accelerometer with kalman filter
 <img src="https://github.com/AlessandroAvi/STM_quadcopter/blob/main/Images/OneAxisPrototype2.jpg" width=70% height=70%>
 
 <img src="https://github.com/AlessandroAvi/STM_quadcopter/blob/main/Images/OneAxisPrototype.gif" width=70% height=70%>
+
+<img src="https://github.com/AlessandroAvi/STM_quadcopter/blob/main/Images/frame_mounted.jpg" width=70% height=70%>
+
+<img src="https://github.com/AlessandroAvi/STM_quadcopter/blob/main/Images/drone.jpg" width=70% height=70%>
